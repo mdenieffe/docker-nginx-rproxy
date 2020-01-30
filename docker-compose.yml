@@ -1,0 +1,26 @@
+version: '3.7'
+
+services: 
+  client-app:
+    image: nginx-mock-ui
+    build: 
+      context: ./mock-ui
+    networks: 
+      - mock-net
+
+  nginx-proxy:
+    image: nginx-reverse-proxy
+    build: 
+      context: ./nginx-reverse-proxy
+    ports: 
+      - "8000:8000"
+    depends_on: 
+      - client-app
+    networks: 
+      - mock-net
+
+networks: 
+  mock-net:
+    external: 
+      name: nat
+
